@@ -66,6 +66,7 @@ for (let i = 1; i <= 54; i++) {
 
 buttonclear.addEventListener('click', () => {
     floatingContainer.innerHTML = '';
+    body.classList.remove('body-with-pattern');
 });
 
 buttonfuck.addEventListener('click', () => {
@@ -74,12 +75,12 @@ buttonfuck.addEventListener('click', () => {
 
     // Ограничиваем количество, чтобы телефон не завис
     // Если нажать много раз, очищаем предыдущие, чтобы не крашнуть браузер
-    if (floatingContainer.children.length > 300) {
+    if (floatingContainer.children.length > 100) {
         floatingContainer.innerHTML = ''; 
     }
 
     // Создаем сообщения
-    for (let i = 0; i < 25; i++) { // Уменьшил до 50 за клик для лучшей работы на мобильных
+    for (let i = 0; i < 25; i++) { 
         createFloatingMessage(i);
     }
 });

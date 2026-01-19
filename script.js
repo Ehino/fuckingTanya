@@ -1,5 +1,4 @@
 const buttonfuck = document.getElementById('fuckBtn');
-const buttondontfuck = document.getElementById('dontfuckBtn');
 const buttonclear = document.getElementById('clearBtn');
 const floatingContainer = document.getElementById('floatingContainer');
 const body = document.body;
@@ -61,33 +60,30 @@ const myPhotos = [
     'photo/photo_54.jpg'
 ];
 
-buttonclear.addEventListener('click', () =>{
+for (let i = 1; i <= 54; i++) {
+    myPhotos.push(`photo/photo_${i}.jpg`);
+}
+
+buttonclear.addEventListener('click', () => {
     floatingContainer.innerHTML = '';
-})
+});
 
 buttonfuck.addEventListener('click', () => {
-
-    // 2. Добавляем паттерн на задний фон (если его еще нет)
+    // Включаем паттерн
     body.classList.add('body-with-pattern');
 
-    // (Больше не меняем основную фоновую картинку body)
+    // Ограничиваем количество, чтобы телефон не завис
+    // Если нажать много раз, очищаем предыдущие, чтобы не крашнуть браузер
+    if (floatingContainer.children.length > 300) {
+        floatingContainer.innerHTML = ''; 
+    }
 
-    // 3. Создаем 10 летающих сообщений
-    for (let i = 0; i < 100; i++) {
+    // Создаем сообщения
+    for (let i = 0; i < 50; i++) { // Уменьшил до 50 за клик для лучшей работы на мобильных
         createFloatingMessage(i);
     }
 });
 
-/* buttondontfuck.addEventListener('click' () => {
-    const randomX = Math.random() * (window.innerWidth - 140);
-    const randomY = Math.random() * (window.innerHeight - 140);
-
-    messageWrapper.style.left = `${randomX}px`;
-    messageWrapper.style.top = `${randomY}px`;
-})  */
-
-
-// Функция для создания одного сообщения
 function createFloatingMessage(index) {
     const messageWrapper = document.createElement('div');
     messageWrapper.className = 'floating-message';
@@ -98,22 +94,35 @@ function createFloatingMessage(index) {
 
     // Картинка
     const img = document.createElement('img');
-    // ВЫБИРАЕМ СЛУЧАЙНУЮ КАРТИНКУ ЗДЕСЬ:
     const randomPhotoUrl = myPhotos[Math.floor(Math.random() * myPhotos.length)];
     img.src = randomPhotoUrl;
     img.className = 'floating-image';
+    
+    // Если картинка не найдена, скрываем иконку ошибки
+    img.onerror = function() {
+        this.style.display = 'none';
+    };
+
     messageWrapper.appendChild(img);
 
-    // Позиция
-    // (немного уменьшили границы, чтобы карточки не обрезались)
-    const randomX = Math.random() * (window.innerWidth - 140);
-    const randomY = Math.random() * (window.innerHeight - 140);
+    // Добавляем временно в контейнер, чтобы узнать реальные размеры
+    floatingContainer.appendChild(messageWrapper);
+
+    // ВЫЧИСЛЕНИЕ КООРДИНАТ ДЛЯ ЛЮБОГО ЭКРАНА
+    // Ширина экрана минус ширина самой карточки (примерно 140px)
+    const maxWidth = window.innerWidth - 150; 
+    const maxHeight = window.innerHeight - 150;
+
+    // Защита от отрицательных значений на очень узких экранах
+    const safeWidth = maxWidth > 0 ? maxWidth : 10;
+    const safeHeight = maxHeight > 0 ? maxHeight : 10;
+
+    const randomX = Math.random() * safeWidth;
+    const randomY = Math.random() * safeHeight;
 
     messageWrapper.style.left = `${randomX}px`;
     messageWrapper.style.top = `${randomY}px`;
     
-    // Задержка появления
-    messageWrapper.style.animationDelay = `${index * 0.01}s`;
-
-    floatingContainer.appendChild(messageWrapper);
+    // Случайная задержка для естественного эффекта "взрыва"
+    messageWrapper.style.animationDelay = `${Math.random() * 0.5}s`;
 }

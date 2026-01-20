@@ -520,3 +520,60 @@ function showSlide(n) {
 
 // Запуск
 document.addEventListener('DOMContentLoaded', renderMemories);
+
+// Переменные для отслеживания касаний
+let touchstartX = 0;
+let touchendX = 0;
+let touchstartY = 0;
+let touchendY = 0;
+
+// Функция определения жеста
+function handleGesture() {
+    const swipeThreshold = 50; // Минимальная дистанция для свайпа в пикселях
+    const xDiff = touchendX - touchstartX;
+    const yDiff = touchendY - touchstartY;
+
+    // Проверяем, был ли свайп горизонтальным или вертикальным
+    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        // Горизонтальный свайп
+        if (Math.abs(xDiff) > swipeThreshold) {
+            if (xDiff < 0) {
+                // Свайп влево — следующее фото
+                changeSlide(1);
+            } else {
+                // Свайп вправо — предыдущее фото
+                changeSlide(-1);
+            }
+        }
+    } else {
+        // Вертикальный свайп
+        if (Math.abs(yDiff) > swipeThreshold && yDiff > 50) {
+            // Свайп вниз — закрыть модалку (вернуться назад)
+            const modal = document.getElementById('memoryModal');
+            const modalContainer = document.getElementById('modalMediaContainer');
+            modal.style.display = "none";
+            modalContainer.innerHTML = '';
+        }
+    }
+}
+
+// Слушатели событий для модального окна
+const modalElement = document.getElementById('memoryModal');
+
+modalElement.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+    touchstartY = e.changedTouches[0].screenY;
+}, {passive: true});
+
+modalElement.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    touchendY = e.changedTouches[0].screenY;
+    handleGesture();
+}, {passive: true});
+
+// Блокировка прокрутки страницы при свайпах внутри модалки
+modalElement.addEventListener('touchmove', e => {
+    if (modalElement.style.display === "flex") {
+        e.preventDefault();
+    }
+}, {passive: false});

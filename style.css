@@ -1,216 +1,65 @@
-/* Глобальная настройка для всех элементов */
+/* --- 1. ПЕРЕМЕННЫЕ И БАЗОВЫЕ НАСТРОЙКИ --- */
+:root {
+    --primary-color: #ff4081;   /* Основной розовый */
+    --secondary-color: #9e9e9e; /* Серый для второстепенных кнопок */
+    --text-color: #d81b60;      /* Темно-розовый для текста */
+    --turquoise-color: #00acc1;;      /* Золотой для дат */
+    --glass-bg: rgba(255, 255, 255, 0.5); /* Эффект стекла */
+}
+
 * {
-    box-sizing: border-box;
+    box-sizing: border-box; /* Учитывать отступы в ширине элементов */
 }
 
 body {
     margin: 0;
-    /* overflow: hidden; */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, sans-serif;
     background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
     position: relative;
-    /* Запрет выделения текста на мобилках при частых кликах */
-    -webkit-tap-highlight-color: transparent; 
+    -webkit-tap-highlight-color: transparent; /* Убирает синюю подсветку при клике на Android */
 }
 
-/* Паттерн на фоне */
+/* Паттерн "Пошла нахуй" на фоне (появляется при нажатии кнопки) */
 body.body-with-pattern::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='50'%3E%3Ctext x='0' y='30' font-family='Arial' font-weight='bold' font-size='13' fill='rgba(0,0,0,0.05)' transform='rotate(-15)'%3EПошла нахуй!%3C/text%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 1;
     animation: fadeInPattern 1s forwards;
 }
 
-/* Адаптивный контейнер */
+/* --- 2. ЛЭЙАУТ И КОНТЕЙНЕРЫ --- */
+
+/* Заголовок сайта */
 .main-container {
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--glass-bg);
     padding: 30px 20px;
     border-radius: 25px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     z-index: 10;
     position: relative;
-    
-    /* Адаптивность ширины */
     width: 90%;
     max-width: 450px; 
-}
-
-.card{
-    margin-top: 5ch;
-    background: rgba(255, 255, 255, 0.7);
-    padding: 30px 20px;
-    border-radius: 25px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    z-index: 10;
-    position: relative;
+    margin: 20px 0 20px;
     
-    /* Адаптивность ширины */
-    width: 90%;
-    max-width: 450px; 
 }
 
-h1, h2 { 
-    color: #d81b60; 
+.text-container { 
+    color: var(--text-color); 
     margin-top: 0;
-    /* Шрифт меняется от 1.8rem до 2.5rem в зависимости от экрана */
+    /* clamp() делает шрифт адаптивным: минимум 1.8rem, максимум 2.5rem */
     font-size: clamp(1.8rem, 5vw, 2.5rem); 
     line-height: 1.2;
 }
 
-/* Липкая обертка для кнопок */
-.sticky-wrapper {
-    position: -webkit-sticky; /* Для Safari */
-    position: sticky;
-    top: 0; /* Прилипает к самому верху */
-    width: 100%;
-    z-index: 100; /* Чтобы кнопки были над фотографиями, но под модалкой */
-    padding: 10px 0;
-    display: flex;
-    justify-content: center;
-    
-    /* Эффект стекла появляется, когда кнопки плывут поверх контента */
-    background: rgba(253, 251, 251, 0.0); /* Сначала прозрачный */
-    transition: background 0.3s;
-}
-
-/* Когда мы начинаем скроллить, можно добавить фон (опционально) 
-   Но проще оставить легкое размытие всегда: */
-.sticky-wrapper {
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-}
-
-.button-group {
-    display: flex;
-    gap: 10px;
-    width: 90%;
-    max-width: 450px;
-}
-
-.button-group button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-button {
-    width: 100%; /* Кнопка во всю ширину контейнера */
-    padding: 15px;
-    background-color: #ff4081;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-weight: bold;
-    transition: transform 0.1s, background-color 0.2s;
-    box-shadow: 0 4px 10px rgba(255, 64, 129, 0.4);
-}
-
-button:active {
-    transform: scale(0.95); /* Эффект нажатия */
-}
-
-/* Вторая кнопка другого цвета */
-button.secondary {
-    background-color: #9e9e9e;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-#floatingContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 5;
-}
-
-/* Летающее сообщение */
-.floating-message {
-    position: fixed;
-    text-align: center;
-    color: #d81b60;
-    font-weight: bold;
-    font-size: 1rem;
-    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
-    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    opacity: 0;
-    background: rgba(255,255,255,0.9);
-    padding: 8px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    
-    /* Ограничиваем размер карточки, чтобы не вылезала */
-    max-width: 140px;
-}
-
-.scroll-bg-photo {
-    position: fixed; /* Чтобы они оставались на фоне при скролле */
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-    opacity: 0;
-    z-index: 1; /* Глубоко на заднем плане */
-    pointer-events: none;
-    animation: fadeAndIn 4s ease-in-out forwards;
-    filter: grayscale(30%) blur(1px); /* Делаем их менее отвлекающими */
-}
-
-@keyframes fadeAndIn {
-    0% { opacity: 0; transform: scale(0.5); }
-    20% { opacity: 0.3; transform: scale(1); }
-    80% { opacity: 0.3; }
-    100% { opacity: 0; transform: scale(1.1); }
-}
-
-.floating-image {
-    display: block;
-    width: 100%; /* Картинка заполняет ширину карточки */
-    height: 100px;
-    object-fit: cover;
-    margin: 5px auto 0 auto;
-    border-radius: 8px;
-}
-
-@keyframes popIn {
-    0% { opacity: 0; transform: scale(0.5) translateY(20px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-@keyframes fadeInPattern {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* На планшетах и ПК делаем кнопки в ряд */
-@media (min-width: 600px) {
-    .button-group {
-        flex-direction: row;
-        justify-content: center;
-    }
-    button {
-        width: auto;
-        padding: 15px 30px;
-    }
-}
-
+/* Секция с галереей */
 .memory-section {
     width: 95%;
     max-width: 1200px;
@@ -221,110 +70,158 @@ button.secondary {
 
 .section-title {
     text-align: center;
-    color: #d81b60;
+    color: var(--text-color);
     font-size: 2rem;
     text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
 }
 
-/* Сетка для карточек */
+/* Сетка (Grid) для карточек */
 .memory-grid {
     display: grid;
-    /* Автоматическое создание колонок: минимум 280px */
+    /* auto-fill заполняет строку карточками, minmax не дает им сжиматься меньше 280px */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
     padding: 20px;
 }
 
-/* Сама карточка */
+/* --- 3. КНОПКИ И УПРАВЛЕНИЕ --- */
+
+/* Липкая панель кнопок */
+.sticky-wrapper {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 15px; /* Отступим от верхнего края для красоты */
+    z-index: 100;
+    
+    /* Делаем блок компактным */
+    width: fit-content; /* Ширина по размеру кнопок */
+    margin: 0 auto;     /* Центрируем сам контейнер */
+    padding: 10px;      /* Внутренний отступ от кнопок до края блюра */
+    
+    /* Эффект стекла и скругление */
+    background: rgba(255, 255, 255, 0.4); /* Полупрозрачный фон */
+    backdrop-filter: blur(10px);          /* Размытие */
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 25px;                  /* Срезаем углы блюра */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Тонкая рамка для четкости */
+    
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Легкая тень */
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    width: 90%;
+    max-width: 450px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: transform 0.1s, background-color 0.2s;
+    box-shadow: 0 4px 10px rgba(255, 64, 129, 0.4);
+}
+
+button:active { transform: scale(0.95); }
+button.secondary { background-color: var(--secondary-color); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+
+/* Кнопка "Наверх" */
+#scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 30px; right: 30px;
+    z-index: 999;
+    width: 50px; height: 50px;
+    background-color: var(--text-color);
+    color: white;
+    border-radius: 50%;
+    font-size: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    padding: 0; /* Сброс паддинга для круглой формы */
+}
+
+/* --- 4. КАРТОЧКИ (Memory Card) --- */
 .memory-card {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 15px;
-    padding: 15px; /* Внутренний отступ как у рамки фото */
+    padding: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
 }
 
 .memory-card:hover {
     transform: scale(1.03) rotate(1deg);
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.8);
 }
 
-/* Контейнер для фото, чтобы они были одинакового размера */
 .image-wrapper {
     width: 100%;
     height: 250px;
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 15px;
-    display: flex;
-    overflow-x: auto; /* Позволяет листать вбок */
-    scroll-snap-type: x mandatory; /* Мягкое примагничивание при листении */
+    position: relative; /* Для позиционирования иконки видео */
 }
 
-.image-wrapper img {
-    width: 100%;
-    height: 100%;
+.image-wrapper img, .image-wrapper video {
+    width: 100%; height: 100%;
     object-fit: cover;
-    flex-shrink: 0;
-    scroll-snap-align: start;
 }
 
-.memory-info {
-    text-align: center;
-}
+.memory-info { text-align: center; }
 
 .memory-date {
     display: block;
     font-size: 0.9rem;
-    color: #00acc1; /* Золотистый цвет */
+    color: var(--turquoise-color);
     font-weight: bold;
     margin-bottom: 5px;
     letter-spacing: 1px;
-    text-transform: uppercase; /* Делает дату более официальной */
+    text-transform: uppercase;
 }
 
 .memory-text {
     font-size: 1.1rem;
-    color: #d81b60;
+    color: var(--text-color);
     font-weight: 600;
     margin: 0;
 }
 
-.memory-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Видео заполнит всю область карточки */
-    display: block;
+.video-indicator {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: rgba(255,255,255,0.8);
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-/* Добавим иконку видео поверх, если нужно, или просто стилизуем плеер */
-.image-wrapper video::-webkit-media-controls-panel {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-
-/* --- Стили Модального Окна --- */
+/* --- 5. МОДАЛЬНОЕ ОКНО --- */
 .modal {
-    display: none; /* Скрыто по умолчанию */
+    display: none;
     position: fixed;
-    z-index: 1000; /* Поверх всего */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Темный фон */
+    z-index: 2000; /* Самый высокий приоритет */
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
     justify-content: center;
     align-items: center;
     flex-direction: column;
     backdrop-filter: blur(5px);
-    touch-action: none; /* Запрещает браузеру самому обрабатывать свайпы (например, обновлять страницу) */
-    user-select: none;  /* Чтобы текст/картинки не выделялись при долгом нажатии */
+    touch-action: none;
 }
 
-/* Контент внутри модалки */
 .modal-content-wrapper {
     position: relative;
     max-width: 90%;
@@ -334,32 +231,24 @@ button.secondary {
     align-items: center;
 }
 
-/* Картинка или Видео в модалке */
-#modalMediaContainer img, 
-#modalMediaContainer video {
+#modalMediaContainer img, #modalMediaContainer video {
     max-width: 100%;
-    max-height: 70vh; /* Не больше 70% высоты экрана */
+    max-height: 70vh;
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
     object-fit: contain;
 }
 
-/* Кнопка закрытия (крестик) */
 .close-modal {
     position: absolute;
-    top: 20px;
-    right: 35px;
+    top: 20px; right: 35px;
     color: #f1f1f1;
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
-    z-index: 1001;
-    transition: 0.3s;
+    z-index: 2001;
 }
 
-.close-modal:hover { color: #bbb; }
-
-/* Кнопки Вперед/Назад */
 .prev-slide, .next-slide {
     cursor: pointer;
     position: absolute;
@@ -370,53 +259,83 @@ button.secondary {
     color: white;
     font-weight: bold;
     font-size: 20px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
+    transition: 0.3s;
     user-select: none;
     background-color: rgba(0,0,0,0.3);
 }
+.next-slide { right: 0; border-radius: 3px 0 0 3px; }
+.prev-slide { left: 0; border-radius: 0 3px 3px 0; }
+.prev-slide:hover, .next-slide:hover { background-color: rgba(0,0,0,0.8); }
 
-.next-slide {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
-.prev-slide {
-    left: 0;
-    border-radius: 3px 0 0 3px;
+.modal-caption { margin-top: 15px; color: #ccc; font-size: 1.2rem; text-align: center; }
+.slide-counter { color: #777; font-size: 0.9rem; margin-top: 5px; }
+
+/* --- 6. АНИМАЦИИ И ФОНОВЫЕ ЭЛЕМЕНТЫ --- */
+#floatingContainer {
+    position: fixed; /* Фиксируем, чтобы летали по экрану, а не по странице */
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; /* Пропускать клики сквозь контейнер */
+    z-index: 5;
 }
 
-.prev-slide:hover, .next-slide:hover {
-    background-color: rgba(0,0,0,0.8);
-}
-
-/* Текст под фото */
-.modal-caption {
-    margin-top: 15px;
-    color: #ccc;
-    font-size: 1.2rem;
+/* Летающие сообщения (текст + фото) */
+.floating-message {
+    position: fixed;
     text-align: center;
-}
-.slide-counter {
-    color: #777;
-    font-size: 0.9rem;
-    margin-top: 5px;
-}
-
-/* Иконка видео на превью карточки (треугольник) */
-.video-indicator {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3rem;
-    color: rgba(255,255,255,0.8);
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 1rem;
+    background: rgba(255,255,255,0.9);
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    max-width: 140px;
+    z-index: 1000;
     pointer-events: none;
-    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    opacity: 0;
+}
+.floating-image {
+    display: block;
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    margin: 5px auto 0 auto;
+    border-radius: 8px;
 }
 
-@media (max-width: 768px) {
-    body {
-        overflow-y: auto; 
-    }
+
+/* Ключевые кадры анимаций */
+/* Вариант 1: По часовой стрелке + Вверх + Пропадание */
+@keyframes flyAndSpinRight {
+    0% { opacity: 0; transform: scale(0.5) translateY(20px) rotate(0deg); }
+    15% { opacity: 1; transform: scale(1) translateY(0) rotate(5deg); }
+    80% { opacity: 0.5; }
+    90% { opacity: 0.25; }
+    100% { opacity: 0; transform: scale(0.8) translateY(-150px) rotate(35deg); }
 }
 
+/* Вариант 2: Против часовой стрелки + Вверх + Пропадание */
+@keyframes flyAndSpinLeft {
+    0% { opacity: 0; transform: scale(0.5) translateY(20px) rotate(0deg); }
+    15% { opacity: 1; transform: scale(1) translateY(0) rotate(-5deg); }
+    80% { opacity: 0.5; }
+    90% { opacity: 0.25; }
+    100% { opacity: 0; transform: scale(0.8) translateY(-150px) rotate(-35deg); }
+}
+
+@keyframes fadeInPattern {
+    from { opacity: 0; } to { opacity: 1; }
+}
+
+@keyframes parallaxFloat {
+    0% { opacity: 0; transform: translateY(40px) rotate(0deg) scale(0.8); }
+    20% { opacity: 0.35; transform: translateY(0px) rotate(2deg) scale(1); }
+    80% { opacity: 0.35; }
+    100% { opacity: 0; transform: translateY(-120px) rotate(12deg) scale(1.1); }
+}
+
+/* Медиа-запрос для ПК */
+@media (min-width: 600px) {
+    .button-group { flex-direction: row; justify-content: center; }
+    button { width: auto; padding: 15px 30px; }
+}

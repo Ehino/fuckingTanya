@@ -1,8 +1,9 @@
-const buttonfuck = document.getElementById('fuckBtn');
-const buttonclear = document.getElementById('clearBtn');
-const floatingContainer = document.getElementById('floatingContainer');
-const body = document.body;
-    
+/* =========================================
+   1. ДАННЫЕ (DATA)
+   ========================================= */
+const notphoto = 'photo/notphoto.jpg';
+
+// Массив фото для фона и эффектов
 const myPhotos = [
     'photo/background/photo_1.jpg',
     'photo/background/photo_2.jpg',
@@ -59,6 +60,12 @@ const myPhotos = [
     'photo/background/photo_53.jpg',
     'photo/background/photo_54.jpg'
 ]; 
+// Заполняем массив myPhotos остальными фото (автоматически)
+for (let i = 1; i <= 15; i++) {
+    myPhotos.push(`photo/background/photo_${i}.jpg`);
+}
+
+// Данные для галереи (Карточки)
 
 const memoryData = [
     /* {
@@ -73,91 +80,91 @@ const memoryData = [
         date: 'Неизвестно',
         text: '1. Кама и Аня',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '2. Ваня',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '3. Вася',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '4. Апсент',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '5. Вася Ваня',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '6. Вася Ваня',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '7. Колян',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '8. Угон',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '9. Проводы Тани',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '10. Телефон на беседке',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '11. Вася в подъезде',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '12. Чеша',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '13. Нурик',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
@@ -173,14 +180,14 @@ const memoryData = [
         date: '14.09.25',
         text: '15. Без названия',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: '15.09.25',
         text: '16. Без названия',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
@@ -194,14 +201,14 @@ const memoryData = [
         date: 'Неизвестно',
         text: '18. Анти-посвят',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: '26.09.25',
         text: '19. Без названия',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
@@ -219,7 +226,7 @@ const memoryData = [
         date: 'Неизвестно',
         text: '21. Подвал кальянка',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
@@ -234,28 +241,28 @@ const memoryData = [
         date: 'Неизвестно',
         text: '23. Первый раз с Катей',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '24. Крокодил',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '25. Ася 7/10',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '26. Шоколад в посте',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
@@ -280,141 +287,191 @@ const memoryData = [
         date: 'Неизвестно',
         text: '29. Размытые тетрадки',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '30. Кинотеатр',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: 'Неизвестно',
         text: '31. Кричащая Анастасия',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: '01.01.26',
         text: '32. Новый год',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: '07.01.26',
         text: '33. Пекин на халяву',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
         ]
     },
     {
         date: '10.01.26',
         text: '34. С Чешей в махито',
         gallery: [
-            {type: 'image', src: 'photo/notphoto.jpg'}
+            {type: 'image', src: notphoto}
+        ]
+    },
+    {
+        date: '11.01.26',
+        text: '35. Между братом',
+        gallery: [
+            {type: 'image', src: notphoto}
         ]
     }
 ];
 
-for (let i = 1; i <= 15; i++) {
-    myPhotos.push(`photo/background/photo_${i}.jpg`);
-}
+/* =========================================
+   2. DOM ЭЛЕМЕНТЫ
+   ========================================= */
+const buttonfuck = document.getElementById('fuckBtn');
+const buttonclear = document.getElementById('clearBtn');
+const floatingContainer = document.getElementById('floatingContainer');
+const body = document.body;
+const topBtn = document.getElementById("scrollToTopBtn");
+const modal = document.getElementById('memoryModal');
+const modalContainer = document.getElementById('modalMediaContainer');
+const captionText = document.getElementById('modalCaption');
+const counterText = document.getElementById('slideCounter');
 
+
+/* =========================================
+   3. СОСТОЯНИЕ (STATE)
+   ========================================= */
+let lastScrollPosition = 0;
+const scrollThreshold = 300; // Порог скролла для появления фото
+let currentMemoryIndex = 0;  // Индекс текущей открытой карточки
+let currentSlideIndex = 0;   // Индекс слайда в модалке
+
+// Для свайпов
+let touchstartX = 0;
+let touchendX = 0;
+let touchstartY = 0;
+let touchendY = 0;
+
+
+/* =========================================
+   4. ФУНКЦИИ (LOGIC)
+   ========================================= */
+
+// --- Анимация "Послать Таню" (текст + фото) ---
+buttonfuck.addEventListener('click', () => {
+    body.classList.add('body-with-pattern');
+    
+    // Очистка если слишком много элементов
+    if (floatingContainer.children.length >= 20) {
+        floatingContainer.innerHTML = ''; 
+    }
+    // Создаем 10 карточек
+    for (let i = 0; i < 10; i++) { 
+        createFloatingMessage();
+    }
+});
+
+// --- Очистка экрана ---
 buttonclear.addEventListener('click', () => {
     floatingContainer.innerHTML = '';
     body.classList.remove('body-with-pattern');
 });
 
-buttonfuck.addEventListener('click', () => {
-    // Включаем паттерн
-    body.classList.add('body-with-pattern');
-
-    // Ограничиваем количество, чтобы телефон не завис
-    // Если нажать много раз, очищаем предыдущие, чтобы не крашнуть браузер
-    if (floatingContainer.children.length >= 10) {
-        floatingContainer.innerHTML = ''; 
-    }
-
-    // Создаем сообщения
-    for (let i = 0; i < 10; i++) { 
-        createFloatingMessage(i);
-    }
-});
-
-function createFloatingMessage(index) {
+// Создание элемента "Сообщение"
+function createFloatingMessage() {
     const messageWrapper = document.createElement('div');
     messageWrapper.className = 'floating-message';
+
+    // Выбираем случайную анимацию
+    const animationName = Math.random() > 0.5 ? 'flyAndSpinRight' : 'flyAndSpinLeft';
+    // Назначаем анимацию через стили: название, длительность (4с), тип плавности, фиксация финала
+    messageWrapper.style.animation = `${animationName} 4s ease-in-out forwards`;
     
-    // Текст
     const textNode = document.createTextNode('Пошла нахуй🖕');
     messageWrapper.appendChild(textNode);
 
-    // Картинка
     const img = document.createElement('img');
     const randomPhotoUrl = myPhotos[Math.floor(Math.random() * myPhotos.length)];
     img.src = randomPhotoUrl;
     img.className = 'floating-image';
     
-    // Если картинка не найдена, скрываем иконку ошибки
-    img.onerror = function() {
-        this.style.display = 'none';
-    };
-
+    img.onerror = function() { this.style.display = 'none'; };
     messageWrapper.appendChild(img);
-
-    // Добавляем временно в контейнер, чтобы узнать реальные размеры
     floatingContainer.appendChild(messageWrapper);
 
-    // ВЫЧИСЛЕНИЕ КООРДИНАТ ДЛЯ ЛЮБОГО ЭКРАНА
-    // Ширина экрана минус ширина самой карточки (примерно 140px)
-    const maxWidth = window.innerWidth - 150; 
-    const maxHeight = window.innerHeight - 150;
-
-    // Защита от отрицательных значений на очень узких экранах
-    const safeWidth = maxWidth > 0 ? maxWidth : 10;
-    const safeHeight = maxHeight > 0 ? maxHeight : 10;
-
-    const randomX = Math.random() * safeWidth;
-    const randomY = Math.random() * safeHeight;
-
-    messageWrapper.style.left = `${randomX}px`;
-    messageWrapper.style.top = `${randomY}px`;
-
+    // Позиционирование
+    setRandomPosition(messageWrapper);
+    
     if (floatingContainer.children.length >= 15) {
         floatingContainer.removeChild(floatingContainer.firstChild);
     }
-    
-    // Случайная задержка для естественного эффекта "взрыва"
+
+    setTimeout(() => {
+        messageWrapper.remove();
+    }, 4000);
+
+    // Анимация задержки
     messageWrapper.style.animationDelay = `${Math.random() * 0.5}s`;
 }
 
-let lastScrollPosition = 0;
-const scrollThreshold = 500; // Через сколько пикселей скролла появится новое фото
 
+// Хелпер для случайных координат
+function setRandomPosition(element) {
+    const maxWidth = window.innerWidth - 150; 
+    const maxHeight = window.innerHeight - 150;
+    const safeWidth = maxWidth > 0 ? maxWidth : 10;
+    const safeHeight = maxHeight > 0 ? maxHeight : 10;
+
+    element.style.left = `${Math.random() * safeWidth}px`;
+    element.style.top = `${Math.random() * safeHeight}px`;
+}
+
+
+/* =========================================
+   5. ОБРАБОТЧИКИ СОБЫТИЙ (EVENT LISTENERS)
+   ========================================= */
+
+// --- Единый обработчик скролла (Производительность) ---
 window.addEventListener('scroll', () => {
-    const currentScrollPosition = window.pageYOffset;
-    
-    // Проверяем, проскроллили ли мы достаточное расстояние
+    const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+    // 1. Логика появления кнопки "Наверх"
+    if (currentScrollPosition > 500) {
+        topBtn.style.display = "block";
+    } else {
+        topBtn.style.display = "none";
+    }
+
+    // 2. Логика появления фоновых фото
     if (Math.abs(currentScrollPosition - lastScrollPosition) > scrollThreshold) {
         lastScrollPosition = currentScrollPosition;
-        
-        // Создаем 1-2 случайных фото
-        for (let i = 0; i < 2; i++) {
-            createFloatingMessage();
-        }
+        createFloatingMessage(); // Создаем 1 фото
     }
 });
 
+// Кнопка наверх
+topBtn.onclick = function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
-// Переменные для работы слайдера
-let currentMemoryIndex = 0; // Какую карточку смотрим
-let currentSlideIndex = 0;  // Какое фото внутри карточки смотрим
 
-/* --- ОТРИСОВКА КАРТОЧЕК --- */
+/* =========================================
+   6. ГАЛЕРЕЯ И МОДАЛЬНОЕ ОКНО
+   ========================================= */
+
+// Отрисовка карточек при загрузке
+document.addEventListener('DOMContentLoaded', renderMemories);
+
 function renderMemories() {
     const grid = document.getElementById('memoryGrid');
     if (!grid) return;
@@ -423,141 +480,75 @@ function renderMemories() {
         const card = document.createElement('div');
         card.className = 'memory-card';
         
-        // Берем ПЕРВЫЙ элемент как обложку
         const coverMedia = item.gallery[0];
-        let mediaHtml = '';
-        let videoIcon = '';
+        let mediaHtml = coverMedia.type === 'video' 
+            ? `<video src="${coverMedia.src}" muted loop playsinline></video><div class="video-indicator">▶</div>`
+            : `<img src="${coverMedia.src}" loading="lazy">`;
 
-        if (coverMedia.type === 'video') {
-            // Если обложка видео - показываем видео, но без звука
-            mediaHtml = `<video src="${coverMedia.src}" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()"></video>`;
-            videoIcon = `<div class="video-indicator">▶</div>`; // Иконка Play
-        } else {
-            mediaHtml = `<img src="${coverMedia.src}" alt="Memory" loading="lazy">`;
-        }
-
-        // Добавляем событие onclick, передавая индекс карточки
         card.onclick = () => openModal(index);
-
+        
         card.innerHTML = `
-            <div class="image-wrapper">
-                ${mediaHtml}
-                ${videoIcon}
-            </div>
+            <div class="image-wrapper">${mediaHtml}</div>
             <div class="memory-info">
                 <span class="memory-date">${item.date}</span>
                 <p class="memory-text">${item.text}</p>
-                <span style="font-size:0.8rem; color:#888;">Фотографий: ${item.gallery.length}</span>
+                <span style="font-size:0.8rem; color:#888;">Фото: ${item.gallery.length}</span>
             </div>
         `;
-
         grid.appendChild(card);
     });
 }
 
-/* --- ЛОГИКА МОДАЛЬНОГО ОКНА --- */
-const modal = document.getElementById('memoryModal');
-const modalContainer = document.getElementById('modalMediaContainer');
-const captionText = document.getElementById('modalCaption');
-const counterText = document.getElementById('slideCounter');
-const closeBtn = document.querySelector('.close-modal');
-
-// Открыть окно
+// Открытие модалки
 function openModal(index) {
     currentMemoryIndex = index;
-    currentSlideIndex = 0; // Всегда начинаем с первого фото
+    currentSlideIndex = 0;
     modal.style.display = "flex";
     showSlide(currentSlideIndex);
 }
 
-// Закрыть окно
-closeBtn.onclick = () => {
+// Закрытие модалки
+document.querySelector('.close-modal').onclick = closeModal;
+function closeModal() {
     modal.style.display = "none";
-    modalContainer.innerHTML = ''; // Очищаем плеер (чтобы остановить видео)
-};
+    modalContainer.innerHTML = '';
+}
 
-// Закрыть по клику вне картинки
-window.onclick = (event) => {
-    if (event.target == modal) {
-        modal.style.display = "none";
-        modalContainer.innerHTML = '';
-    }
-};
-
-// Листать слайды (+1 или -1)
+// Навигация слайдера
 window.changeSlide = function(n) {
     showSlide(currentSlideIndex += n);
 }
 
-// Главная функция показа слайда
 function showSlide(n) {
     const gallery = memoryData[currentMemoryIndex].gallery;
-
-    // Зацикливание (если конец - идем в начало)
     if (n >= gallery.length) currentSlideIndex = 0;
     if (n < 0) currentSlideIndex = gallery.length - 1;
 
     const mediaItem = gallery[currentSlideIndex];
     
-    // Очистка и создание нового элемента
-    modalContainer.innerHTML = '';
-
+    // Если видео - создаем плеер, если фото - img
     if (mediaItem.type === 'video') {
-        // Видео в модалке - с контроллерами и звуком
         modalContainer.innerHTML = `
-            <video controls autoplay class="modal-video">
+            <video controls autoplay class="modal-video" style="max-width:100%; max-height:70vh;">
                 <source src="${mediaItem.src}" type="video/mp4">
             </video>`;
     } else {
-        // Картинка
         modalContainer.innerHTML = `<img src="${mediaItem.src}" class="modal-image">`;
     }
 
-    // Обновляем текст
     captionText.innerHTML = memoryData[currentMemoryIndex].text;
     counterText.innerHTML = `${currentSlideIndex + 1} из ${gallery.length}`;
 }
 
-// Запуск
-document.addEventListener('DOMContentLoaded', renderMemories);
+// Закрытие по клику вне фото
+window.onclick = (event) => {
+    if (event.target == modal) closeModal();
+};
 
-// Переменные для отслеживания касаний
-let touchstartX = 0;
-let touchendX = 0;
-let touchstartY = 0;
-let touchendY = 0;
 
-// Функция определения жеста
-function handleGesture() {
-    const swipeThreshold = 50; // Минимальная дистанция для свайпа в пикселях
-    const xDiff = touchendX - touchstartX;
-    const yDiff = touchendY - touchstartY;
-
-    // Проверяем, был ли свайп горизонтальным или вертикальным
-    if (Math.abs(xDiff) > Math.abs(yDiff)) {
-        // Горизонтальный свайп
-        if (Math.abs(xDiff) > swipeThreshold) {
-            if (xDiff < 0) {
-                // Свайп влево — следующее фото
-                changeSlide(1);
-            } else {
-                // Свайп вправо — предыдущее фото
-                changeSlide(-1);
-            }
-        }
-    } else {
-        // Вертикальный свайп
-        if (Math.abs(yDiff) > swipeThreshold && yDiff > 50) {
-            // Свайп вниз — закрыть модалку (вернуться назад)
-            const modal = document.getElementById('memoryModal');
-            const modalContainer = document.getElementById('modalMediaContainer');
-            modal.style.display = "none";
-            modalContainer.innerHTML = '';
-        }
-    }
-}
-
-// Слушатели событий для модального окна
+/* =========================================
+   7. ЖЕСТЫ (SWIPES)
+   ========================================= */
 const modalElement = document.getElementById('memoryModal');
 
 modalElement.addEventListener('touchstart', e => {
@@ -571,9 +562,22 @@ modalElement.addEventListener('touchend', e => {
     handleGesture();
 }, {passive: true});
 
-// Блокировка прокрутки страницы при свайпах внутри модалки
+// Блокируем скролл страницы, пока открыта модалка
 modalElement.addEventListener('touchmove', e => {
-    if (modalElement.style.display === "flex") {
-        e.preventDefault();
-    }
+    if (modalElement.style.display === "flex") e.preventDefault();
 }, {passive: false});
+
+function handleGesture() {
+    const xDiff = touchendX - touchstartX;
+    const yDiff = touchendY - touchstartY;
+    
+    // Горизонтальный свайп (листать фото)
+    if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 50) {
+        if (xDiff < 0) changeSlide(1); // Влево -> Вперед
+        else changeSlide(-1);          // Вправо -> Назад
+    } 
+    // Вертикальный свайп (закрыть)
+    else if (Math.abs(yDiff) > 50 && yDiff > 50) {
+        closeModal();
+    }
+}

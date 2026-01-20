@@ -10,14 +10,35 @@
 
     <div class="main-container">
         <h1>Сайт для Тани</h1>
+    </div>
+    <div class="sticky-wrapper">
         <div class="button-group">
             <button id="fuckBtn">Послать Таню!</button>
             <button id="clearBtn" class="secondary">Очистить</button>
         </div>
     </div>
+    
 
     <div id="floatingContainer"></div>
 
+    <div class="memory-section">
+        <h2 class="section-title">Буханки с Таней</h2>
+        <div id="memoryGrid" class="memory-grid"></div>
+    </div>
+
+    <div id="memoryModal" class="modal">
+        <span class="close-modal">&times;</span>
+        
+        <a class="prev-slide" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next-slide" onclick="changeSlide(1)">&#10095;</a>
+
+        <div class="modal-content-wrapper">
+            <div id="modalMediaContainer">
+                </div>
+            <div id="modalCaption" class="modal-caption"></div>
+            <div id="slideCounter" class="slide-counter">1 / 5</div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

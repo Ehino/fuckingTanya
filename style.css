@@ -5,7 +5,7 @@
 
 body {
     margin: 0;
-    overflow: hidden; /* Блокируем скролл, чтобы ничего не дергалось */
+    /* overflow: hidden; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,7 +47,22 @@ body.body-with-pattern::before {
     max-width: 450px; 
 }
 
-h1 { 
+.card{
+    margin-top: 5ch;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 30px 20px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 10;
+    position: relative;
+    
+    /* Адаптивность ширины */
+    width: 90%;
+    max-width: 450px; 
+}
+
+h1, h2 { 
     color: #d81b60; 
     margin-top: 0;
     /* Шрифт меняется от 1.8rem до 2.5rem в зависимости от экрана */
@@ -55,11 +70,42 @@ h1 {
     line-height: 1.2;
 }
 
-/* Группа кнопок */
+/* Липкая обертка для кнопок */
+.sticky-wrapper {
+    position: -webkit-sticky; /* Для Safari */
+    position: sticky;
+    top: 0; /* Прилипает к самому верху */
+    width: 100%;
+    z-index: 100; /* Чтобы кнопки были над фотографиями, но под модалкой */
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    
+    /* Эффект стекла появляется, когда кнопки плывут поверх контента */
+    background: rgba(253, 251, 251, 0.0); /* Сначала прозрачный */
+    transition: background 0.3s;
+}
+
+/* Когда мы начинаем скроллить, можно добавить фон (опционально) 
+   Но проще оставить легкое размытие всегда: */
+.sticky-wrapper {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
 .button-group {
     display: flex;
-    flex-direction: column; /* На мобильных кнопки друг под другом */
     gap: 10px;
+    width: 90%;
+    max-width: 450px;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 button {
@@ -98,7 +144,7 @@ button.secondary {
 
 /* Летающее сообщение */
 .floating-message {
-    position: absolute;
+    position: fixed;
     text-align: center;
     color: #d81b60;
     font-weight: bold;
@@ -113,6 +159,26 @@ button.secondary {
     
     /* Ограничиваем размер карточки, чтобы не вылезала */
     max-width: 140px;
+}
+
+.scroll-bg-photo {
+    position: fixed; /* Чтобы они оставались на фоне при скролле */
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    opacity: 0;
+    z-index: 1; /* Глубоко на заднем плане */
+    pointer-events: none;
+    animation: fadeAndIn 4s ease-in-out forwards;
+    filter: grayscale(30%) blur(1px); /* Делаем их менее отвлекающими */
+}
+
+@keyframes fadeAndIn {
+    0% { opacity: 0; transform: scale(0.5); }
+    20% { opacity: 0.3; transform: scale(1); }
+    80% { opacity: 0.3; }
+    100% { opacity: 0; transform: scale(1.1); }
 }
 
 .floating-image {
@@ -144,3 +210,211 @@ button.secondary {
         padding: 15px 30px;
     }
 }
+
+.memory-section {
+    width: 95%;
+    max-width: 1200px;
+    margin: 50px auto;
+    z-index: 10;
+    position: relative;
+}
+
+.section-title {
+    text-align: center;
+    color: #d81b60;
+    font-size: 2rem;
+    text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+}
+
+/* Сетка для карточек */
+.memory-grid {
+    display: grid;
+    /* Автоматическое создание колонок: минимум 280px */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
+
+/* Сама карточка */
+.memory-card {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 15px;
+    padding: 15px; /* Внутренний отступ как у рамки фото */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.memory-card:hover {
+    transform: scale(1.03) rotate(1deg);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Контейнер для фото, чтобы они были одинакового размера */
+.image-wrapper {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    display: flex;
+    overflow-x: auto; /* Позволяет листать вбок */
+    scroll-snap-type: x mandatory; /* Мягкое примагничивание при листении */
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+}
+
+.memory-info {
+    text-align: center;
+}
+
+.memory-date {
+    display: block;
+    font-size: 0.9rem;
+    color: #00acc1; /* Золотистый цвет */
+    font-weight: bold;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+    text-transform: uppercase; /* Делает дату более официальной */
+}
+
+.memory-text {
+    font-size: 1.1rem;
+    color: #d81b60;
+    font-weight: 600;
+    margin: 0;
+}
+
+.memory-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Видео заполнит всю область карточки */
+    display: block;
+}
+
+/* Добавим иконку видео поверх, если нужно, или просто стилизуем плеер */
+.image-wrapper video::-webkit-media-controls-panel {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* --- Стили Модального Окна --- */
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed;
+    z-index: 1000; /* Поверх всего */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Темный фон */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    backdrop-filter: blur(5px);
+}
+
+/* Контент внутри модалки */
+.modal-content-wrapper {
+    position: relative;
+    max-width: 90%;
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Картинка или Видео в модалке */
+#modalMediaContainer img, 
+#modalMediaContainer video {
+    max-width: 100%;
+    max-height: 70vh; /* Не больше 70% высоты экрана */
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    object-fit: contain;
+}
+
+/* Кнопка закрытия (крестик) */
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: 0.3s;
+}
+
+.close-modal:hover { color: #bbb; }
+
+/* Кнопки Вперед/Назад */
+.prev-slide, .next-slide {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.next-slide {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+.prev-slide {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev-slide:hover, .next-slide:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* Текст под фото */
+.modal-caption {
+    margin-top: 15px;
+    color: #ccc;
+    font-size: 1.2rem;
+    text-align: center;
+}
+.slide-counter {
+    color: #777;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Иконка видео на превью карточки (треугольник) */
+.video-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: rgba(255,255,255,0.8);
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto; 
+    }
+}
+

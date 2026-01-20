@@ -320,7 +320,7 @@ const memoryData = [
     }
 ];
 
-for (let i = 1; i <= 25; i++) {
+for (let i = 1; i <= 15; i++) {
     myPhotos.push(`photo/background/photo_${i}.jpg`);
 }
 
@@ -335,12 +335,12 @@ buttonfuck.addEventListener('click', () => {
 
     // Ограничиваем количество, чтобы телефон не завис
     // Если нажать много раз, очищаем предыдущие, чтобы не крашнуть браузер
-    if (floatingContainer.children.length >= 50) {
+    if (floatingContainer.children.length >= 10) {
         floatingContainer.innerHTML = ''; 
     }
 
     // Создаем сообщения
-    for (let i = 0; i < 5; i++) { 
+    for (let i = 0; i < 10; i++) { 
         createFloatingMessage(i);
     }
 });
@@ -384,7 +384,7 @@ function createFloatingMessage(index) {
     messageWrapper.style.left = `${randomX}px`;
     messageWrapper.style.top = `${randomY}px`;
 
-    if (floatingContainer.children.length >= 25) {
+    if (floatingContainer.children.length >= 15) {
         floatingContainer.removeChild(floatingContainer.firstChild);
     }
     
@@ -393,7 +393,7 @@ function createFloatingMessage(index) {
 }
 
 let lastScrollPosition = 0;
-const scrollThreshold = 300; // Через сколько пикселей скролла появится новое фото
+const scrollThreshold = 500; // Через сколько пикселей скролла появится новое фото
 
 window.addEventListener('scroll', () => {
     const currentScrollPosition = window.pageYOffset;
